@@ -56,10 +56,7 @@
         iteration(i);
       }
     } else {
-    //For each key in collection:
       for (var key in collection) {      
-        //get value
-        //call iteratory(value, key, collection)
         iteration(key);
       }
     }
