@@ -100,6 +100,31 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var results = [];
+    if(isSorted){
+      //faster implementation, optional iterator function
+      
+      function transform(val) {
+        var t = (iterator === undefined) ? _.identity : iterator;
+        return t.apply(null, [val])
+      }
+
+      _.each(array, function(value) {
+        if(transform(_.last(results)) !== transform(value)) {
+          results.push(value);
+        }
+      })
+
+    } else {
+      _.each(array, function(value) {
+        if(_.indexOf(results, value) === -1) {
+          results.push(value);
+        }
+      })
+
+    }
+    return results;
+    
   };
 
 
