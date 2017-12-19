@@ -37,6 +37,7 @@
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
+  // if n is larger than the number of elements, return the entire array
   _.last = function(array, n) {
     return n === undefined ? array[array.length - 1] : array.slice((n > array.length)? 0 : array.length - n, array.length);
   };
@@ -47,7 +48,7 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
-    function iteration(key) {
+    var iteration = function(key) {
       iterator.apply(null, [collection[key], key, collection])
     }
 
@@ -83,11 +84,13 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var results = [];
+
     _.each(collection, function(value) {
       if(test.apply(null, [value])) {
         results.push(value);
       } 
     })
+
     return results;
   };
 
@@ -101,10 +104,12 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
     var results = [];
+
     if(isSorted){
-      //sorting allows faster implementation, optional iterator function
-      
-      function transform(val) {
+      //sorting allows faster implementation, element i is unique if it is not equal to element i-1
+
+      //iterator function default is _.identity()
+      var transform = function(val) { 
         var t = (iterator === undefined) ? _.identity : iterator;
         return t.apply(null, [val])
       }
@@ -116,6 +121,7 @@
       })
 
     } else {
+      //put elements from array into results if not already in results
       _.each(array, function(value) {
         if(_.indexOf(results, value) === -1) {
           results.push(value);
@@ -123,8 +129,8 @@
       })
 
     }
-    return results;
 
+    return results;
   };
 
 
@@ -137,6 +143,7 @@
     _.each(collection, function(value) {
       results.push(iterator.apply(null, [value]));
     })
+
     return results;
   };
 
@@ -156,6 +163,7 @@
     return _.map(collection, function(item){
       return item[key];
     });
+
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -182,6 +190,7 @@
 
     var result;
     var workingCollection = collection.slice();
+
     if(accumulator !== undefined) {
       result = accumulator;
     } else {
@@ -191,7 +200,7 @@
     _.each(workingCollection, function(value) {
       result = iterator.apply(null, [result, value]);
       });
-    
+
     return result;
   };
 
