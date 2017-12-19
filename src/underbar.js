@@ -37,6 +37,7 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    return n === undefined ? array[array.length - 1] : array.slice((n > array.length)? 0 : array.length - n, array.length);
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -126,6 +127,12 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
   };
+
+  
+/*
+## PART II ##
+Due as part of LEARN part II
+*/
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
