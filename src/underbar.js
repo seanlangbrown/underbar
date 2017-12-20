@@ -105,14 +105,14 @@
   _.uniq = function(array, isSorted, iterator) {
     var results = [];
 
-    if(isSorted){
-      //sorting allows faster implementation, element i is unique if it is not equal to element i-1
-
-      //iterator function default is _.identity()
+    //iterator function default is _.identity()
       var transform = function(val) { 
         var t = (iterator === undefined) ? _.identity : iterator;
         return t.apply(null, [val])
       }
+
+    if(isSorted){
+      //sorting allows faster implementation, element i is unique if it is not equal to element i-1
 
       _.each(array, function(value) {
         if(transform(_.last(results)) !== transform(value)) {
@@ -121,10 +121,13 @@
       })
 
     } else {
-      //put elements from array into results if not already in results
+      var transArray = [];
+      //put elements from array into results if transformed values not already in transArray
       _.each(array, function(value) {
-        if(_.indexOf(results, value) === -1) {
+        var transValue = transform(value);
+        if(_.indexOf(transArray, transValue) === -1) {
           results.push(value);
+          transArray.push(transValue);
         }
       })
 
