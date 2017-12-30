@@ -246,7 +246,11 @@ Due as part of LEARN part II
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    
+    var test = (iterator === undefined) ? _.identity : iterator;
+
+    return collection.length === 0 || Object.keys(collection).length === 0 || _.reduce(collection, function(allTrue, item) {
+      return allTrue || test.apply(null, [item]);
+    }, true) == false;
   };
 
 
