@@ -248,9 +248,9 @@ Due as part of LEARN part II
     // TIP: There's a very clever way to re-use every() here.
     var test = (iterator === undefined) ? _.identity : iterator;
 
-    return collection.length === 0 || Object.keys(collection).length === 0 || _.reduce(collection, function(allTrue, item) {
-      return allTrue || test.apply(null, [item]);
-    }, true) == false;
+    return !_.every(collection, function(item) { 
+      return !test.apply(null, [item]);
+    });
   };
 
 
@@ -273,11 +273,29 @@ Due as part of LEARN part II
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+    for (var ob = 1; ob < arguments.length; ob++) {
+      _.each(arguments[ob], function(value, key) {
+        obj[key] = value;
+      });
+    }
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+for (var ob = 1; ob < arguments.length; ob++) {
+      _.each(arguments[ob], function(value, key) {
+        if(!(key in obj)) {
+          obj[key] = value;
+        }
+      });
+    }
+
+    return obj;
   };
 
 
@@ -321,6 +339,16 @@ Due as part of LEARN part II
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+    var called = {}; //store results in called object, lookup by arguments
+
+    return function(){
+      var args = JSON.stringify(arguments);
+      if(! (args in called)) {
+        called[args] = func.apply(null, arguments); 
+      }
+      return called[args];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
