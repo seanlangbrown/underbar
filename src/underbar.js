@@ -10,6 +10,16 @@
     return val;
   };
 
+
+  /**
+   * UTILITIES
+   * =========
+   * Functions that help other functions
+   */
+  _.getRandInt = function(min, max){
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
   /**
    * COLLECTIONS
    * ===========
@@ -41,6 +51,16 @@
   _.last = function(array, n) {
     return n === undefined ? array[array.length - 1] : array.slice((n > array.length)? 0 : array.length - n, array.length);
   };
+
+
+  // Swap two elements in a collection
+  _.swap = function(collection, index, index2) {
+      if(index !== index2) {
+        var swapVal = collection[index];
+        collection[index] = collection[index2];
+        collection[index2] = swapVal;
+    }
+  }
 
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
@@ -370,17 +390,7 @@ for (var ob = 1; ob < arguments.length; ob++) {
    * ADVANCED COLLECTION OPERATIONS
    * ==============================
    */
-  _.getRandInt = function(min, max){
-    return Math.floor(Math.random() * (max - min) + min);
-  }
 
-  _.swap = function(collection, index, index2) {
-      if(index !== index2) {
-        var swapVal = collection[index];
-        collection[index] = collection[index2];
-        collection[index2] = swapVal;
-    }
-  }
   // Randomizes the order of an array's contents.
   //
   // TIP: This function's test suite will ask that you not modify the original
