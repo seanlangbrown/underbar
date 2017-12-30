@@ -377,6 +377,17 @@ for (var ob = 1; ob < arguments.length; ob++) {
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var results = array.slice();
+    for(var i = 1000; i > 0; i--) {
+        //select random member of array
+        var j = Math.floor(Math.random() * (array.length-1));
+        var swapIndex = (j >= results.length-1) ? 0 : j + 1;
+        //perform swap
+        var swapVal = results[j];
+        results[j] = results[swapIndex];
+        results[swapIndex] = swapVal;
+      }
+    return results;
   };
 
 
