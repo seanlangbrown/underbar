@@ -192,15 +192,18 @@
   _.reduce = function(collection, iterator, accumulator) {
 
     var result;
-    var workingCollection = collection.slice();
+    var firstRun = true;
 
-    if(accumulator !== undefined) {
-      result = accumulator;
-    } else {
-      result = workingCollection.shift();
-    }
-
-    _.each(workingCollection, function(value) {
+    _.each(collection, function(value) {
+      if(firstRun) {
+        firstRun = false;
+        if (accumulator === undefined) {
+          result = value;
+          return;
+        } else {
+          result = accumulator;
+        }
+      }
       result = iterator.apply(null, [result, value]);
       });
 
@@ -217,24 +220,33 @@ Due as part of LEARN part II
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
+
     return _.reduce(collection, function(wasFound, item) {
       if (wasFound) {
         return true;
       }
       return item === target;
     }, false);
+
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    var test = (iterator === undefined) ? _.identity : iterator;
+
+    return collection.length === 0 || Object.keys(collection).length === 0 || _.reduce(collection, function(allTrue, item) {
+      return allTrue && test.apply(null, [item]);
+    }, true) == true;
+
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    
   };
 
 
@@ -332,7 +344,7 @@ Due as part of LEARN part II
 
 
   /**
-   * ADVANCED
+   * ADVANCED (EXTRA CREDIT)
    * =================
    *
    * Note: This is the end of the pre-course curriculum. Feel free to continue,
