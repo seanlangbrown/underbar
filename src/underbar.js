@@ -16,10 +16,15 @@
    * =========
    * Functions that help other functions
    */
+
+   //get random integer, includes min, excludes max [min, max)
   _.getRandInt = function(min, max){
     return Math.floor(Math.random() * (max - min) + min);
   }
-
+  //get random integer, inclusive [min, max]
+  _.getRandIntInc = function(min, max){
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
   /**
    * COLLECTIONS
    * ===========
@@ -398,16 +403,22 @@ for (var ob = 1; ob < arguments.length; ob++) {
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     var results = array.slice();
-    for(var i = 1000; i > 0; i--) {
+    //fischer-yates shuffle:
+    for(var i = array.length - 1; i > 0; i--) {
+      var j = _.getRandIntInc(0, i);
+      _.swap(results, i, j);
+    }
+    /*for(var i = 1000; i > 0; i--) {
         //select random member of array
         var j = _.getRandInt(0,array.length);
         var swapIndex = _.getRandInt(0,array.length);
         //perform swap
         _.swap(results, j, swapIndex);
 
-      }
+      }*/
     return results;
   };
+
 
 
   /**
