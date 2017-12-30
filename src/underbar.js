@@ -358,6 +358,11 @@ for (var ob = 1; ob < arguments.length; ob++) {
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = [];
+    for (var a = 2; a < arguments.length; a++) {
+      args.push(arguments[a]);
+    }
+    var id = setTimeout(function() {func.apply(null, args)}, wait);
   };
 
 
