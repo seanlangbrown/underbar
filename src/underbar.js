@@ -370,7 +370,17 @@ for (var ob = 1; ob < arguments.length; ob++) {
    * ADVANCED COLLECTION OPERATIONS
    * ==============================
    */
+  _.getRandInt = function(min, max){
+    return Math.floor(Math.random() * (max - min) + min);
+  }
 
+  _.swap = function(collection, index, index2) {
+      if(index !== index2) {
+        var swapVal = collection[index];
+        collection[index] = collection[index2];
+        collection[index2] = swapVal;
+    }
+  }
   // Randomizes the order of an array's contents.
   //
   // TIP: This function's test suite will ask that you not modify the original
@@ -380,12 +390,11 @@ for (var ob = 1; ob < arguments.length; ob++) {
     var results = array.slice();
     for(var i = 1000; i > 0; i--) {
         //select random member of array
-        var j = Math.floor(Math.random() * (array.length-1));
-        var swapIndex = (j >= results.length-1) ? 0 : j + 1;
+        var j = _.getRandInt(0,array.length);
+        var swapIndex = _.getRandInt(0,array.length);
         //perform swap
-        var swapVal = results[j];
-        results[j] = results[swapIndex];
-        results[swapIndex] = swapVal;
+        _.swap(results, j, swapIndex);
+
       }
     return results;
   };
